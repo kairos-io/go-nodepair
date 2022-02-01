@@ -97,21 +97,33 @@ func Receive(ctx context.Context, payload interface{}, opts ...PairOption) error
 
 	waitNodes(ctx, l)
 
+PAIRDATA:
 	for {
-		v, exists := l.GetKey("pairing", "data")
-		if exists {
-			v.Unmarshal(payload)
-			l.AnnounceUpdate(ctx, 1*time.Second, "pairing", n.Host().ID().String(), "ok")
-			break
+		select {
+		case <-ctx.Done():
+			return nil
+		default:
+			v, exists := l.GetKey("pairing", "data")
+			if exists {
+				v.Unmarshal(payload)
+				l.AnnounceUpdate(ctx, 1*time.Second, "pairing", n.Host().ID().String(), "ok")
+				break PAIRDATA
+			}
+			time.Sleep(1 * time.Second)
 		}
-		time.Sleep(1 * time.Second)
 	}
 
+WAIT:
 	for {
-		if _, exists := l.GetKey("pairing", n.Host().ID().String()); exists {
-			break
+		select {
+		case <-ctx.Done():
+			return nil
+		default:
+			if _, exists := l.GetKey("pairing", n.Host().ID().String()); exists {
+				break WAIT
+			}
+			time.Sleep(1 * time.Second)
 		}
-		time.Sleep(1 * time.Second)
 	}
 
 	return nil
@@ -164,18 +176,26 @@ func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	}
 
 	l.AnnounceUpdate(ctx, 1*time.Second, "pairing", "data", payload)
-	active := waitNodes(ctx, l)
-PAIRING:
-	for _, a := range active {
-		if n.Host().ID().String() == a {
-			continue
-		}
-		_, exists := l.GetKey("pairing", a)
-		if exists {
-			break PAIRING
-		}
-		time.Sleep(1 * time.Second)
-	}
 
+	active := waitNodes(ctx, l)
+
+PAIRING:
+	for {
+		select {
+		case <-ctx.Done():
+			return nil
+		default:
+			for _, a := range active {
+				if n.Host().ID().String() == a {
+					continue
+				}
+				_, exists := l.GetKey("pairing", a)
+				if exists {
+					break PAIRING
+				}
+				time.Sleep(1 * time.Second)
+			}
+		}
+	}
 	return nil
 }
