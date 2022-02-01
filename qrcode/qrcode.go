@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"image"
-	_ "image/jpeg"
 	"image/png"
 	"io/ioutil"
 	"os"
@@ -53,23 +52,19 @@ func FromScreenshot() (string, error) {
 
 // Print prints the string as QRcode on terminal output
 func Print(s string) {
-	flagMatte := ""
 	var png []byte
 	png, err := qrcode.Encode(s, qrcode.Medium, 1)
 	if err != nil {
 		return
 	}
-	if flagMatte == "" {
-		flagMatte = "000000" // black background
-	}
-	mc, err := colorful.Hex("#" + flagMatte) // RGB color from Hex format
-	if err != nil {
-	}
 
-	i, err := ansimage.NewFromReader(strings.NewReader(string(png)), mc, ansimage.NoDithering)
-	if err != nil {
+	mc, err := colorful.Hex("#000000") // RGB color from Hex format
+	if err == nil {
+		i, err := ansimage.NewFromReader(strings.NewReader(string(png)), mc, ansimage.NoDithering)
+		if err == nil {
+			i.DrawExt(false, false)
+		}
 	}
-	i.DrawExt(false, false)
 }
 
 // Scan parses QR code from an image file
@@ -98,9 +93,9 @@ func Scan(f string) (string, error) {
 	return result.GetText(), nil
 }
 
-// QRCodeReader retrieves a QRCode or either from an image file
+// Reader retrieves a QRCode or either from an image file
 // given as arguments or from the machine screenshot (best-effort)
-func QRCodeReader(s string) (res string) {
+func Reader(s string) (res string) {
 	res = s
 	if s == "" {
 		res, _ = FromScreenshot()

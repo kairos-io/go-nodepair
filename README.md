@@ -17,8 +17,6 @@ import (
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	r := map[string]string{}
-
     // Generate a token, and print it out somehow
 	t := nodepair.GenerateToken()
 	qr.Print(t)
@@ -30,7 +28,7 @@ func main() {
 		time.Sleep(2 * time.Second)
 		if err := nodepair.Send(
 			ctx, map[string]string{"foo": "Bar"},
-			nodepair.WithReader(qr.QRCodeReader),
+			nodepair.WithReader(qr.Reader),
 			nodepair.WithToken(""), 
             // Optionally provide an input to the QRCode reader. This can be a png file, or the token in the text form. 
             // The reader will take a screenshot as a fallback
@@ -42,6 +40,7 @@ func main() {
 	}()
 
     // bind to the token that we previously generated until we paired with the other remote
+    r := map[string]string{}
 	nodepair.Receive(ctx, &r, nodepair.WithToken(t))
 	fmt.Println("Just got", r)
 }

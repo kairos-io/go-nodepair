@@ -54,8 +54,6 @@ type TokenReader func(string) string
 type PairConfig struct {
 	tokenReader TokenReader
 	token       string
-
-	payload interface{}
 }
 
 // PairOption is a config pair option
@@ -177,8 +175,9 @@ func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	}
 
 	if c.token == "" {
-		return errors.New("No token")
+		return errors.New("no token supplied")
 	}
+
 	n := newNode(c.token)
 
 	n.Start(ctx)

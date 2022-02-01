@@ -20,7 +20,7 @@ func main() {
 		time.Sleep(2 * time.Second)
 		if err := nodepair.Send(
 			ctx, map[string]string{"foo": "Bar"},
-			nodepair.WithReader(qr.QRCodeReader),
+			nodepair.WithReader(qr.Reader),
 			nodepair.WithToken(""),
 		); err != nil {
 			fmt.Println("ERROR")

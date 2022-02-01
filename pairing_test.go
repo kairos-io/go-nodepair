@@ -34,7 +34,7 @@ var _ = Describe("Pairing", func() {
 				time.Sleep(2 * time.Second)
 				if err := nodepair.Send(
 					ctx, map[string]string{"foo": "Bar"},
-					nodepair.WithReader(qr.QRCodeReader),
+					nodepair.WithReader(qr.Reader),
 					nodepair.WithToken(f.Name()),
 				); err != nil {
 					cancel()
