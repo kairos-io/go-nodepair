@@ -13,6 +13,8 @@ require (
 	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/makiuchi-d/gozxing v0.1.1
 	github.com/mudler/edgevpn v0.8.5
+	github.com/onsi/ginkgo v1.16.5
+	github.com/onsi/gomega v1.16.0
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 )
 
@@ -123,7 +125,6 @@ require (
 	github.com/multiformats/go-multistream v0.2.2 // indirect
 	github.com/multiformats/go-varint v0.0.6 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
-	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/opencontainers/runtime-spec v1.0.2 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
