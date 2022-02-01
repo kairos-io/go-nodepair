@@ -20,6 +20,7 @@ import (
 	qrcode "github.com/skip2/go-qrcode"
 )
 
+// FromScreenshot reads a QR code from the displays
 func FromScreenshot() (string, error) {
 	tdir, err := ioutil.TempDir("", "screenshot")
 	if err != nil {
@@ -50,6 +51,7 @@ func FromScreenshot() (string, error) {
 	return "", errors.New("nothing found")
 }
 
+// Print prints the string as QRcode on terminal output
 func Print(s string) {
 	flagMatte := ""
 	var png []byte
@@ -70,6 +72,7 @@ func Print(s string) {
 	i.DrawExt(false, false)
 }
 
+// Scan parses QR code from an image file
 func Scan(f string) (string, error) {
 	// open and decode image file
 	file, err := os.Open(f)
@@ -95,6 +98,8 @@ func Scan(f string) (string, error) {
 	return result.GetText(), nil
 }
 
+// QRCodeReader retrieves a QRCode or either from an image file
+// given as arguments or from the machine screenshot (best-effort)
 func QRCodeReader(s string) (res string) {
 	res = s
 	if s == "" {

@@ -46,8 +46,11 @@ func newNode(token string) *node.Node {
 	return node.New(append(opts, services.Alive(30*time.Second, 5*time.Minute, deadNodes)...)...)
 }
 
+// TokenReader is a function that reads a string and returns a token from it.
+// A string can represent anything (uri, image file, etc.) which can be used to retrieve the connection token
 type TokenReader func(string) string
 
+// PairConfig is the pairing configuration structure
 type PairConfig struct {
 	tokenReader TokenReader
 	token       string
@@ -55,14 +58,21 @@ type PairConfig struct {
 	payload interface{}
 }
 
+// PairOption is a config pair option
 type PairOption func(c *PairConfig) error
 
+// WithReader sets the token reader.
+// If set, during send is invoked to retrieve a token from the specified string from the client (if any)
 func WithReader(t TokenReader) PairOption {
 	return func(c *PairConfig) error {
 		c.tokenReader = t
 		return nil
 	}
 }
+
+// WithToken sets the token as a pair option
+// The token is consumed by TokenReader to parse the string and
+// retrieve a token from it.
 func WithToken(t string) PairOption {
 	return func(c *PairConfig) error {
 		c.token = t
@@ -71,11 +81,13 @@ func WithToken(t string) PairOption {
 	}
 }
 
+// GenerateToken returns a token which can be used for pairing
 func GenerateToken() string {
 	d := node.GenerateNewConnectionData()
 	return d.Base64()
 }
 
+// Receive a payload during pairing
 func Receive(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	c := &PairConfig{}
 	for _, o := range opts {
@@ -151,6 +163,7 @@ CHECK:
 	return active
 }
 
+// Send a payload during device pairing
 func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	c := &PairConfig{}
 	for _, o := range opts {

@@ -8,7 +8,6 @@ require (
 	github.com/kbinani/screenshot v0.0.0-20210720154843-7d3a670d8329
 	github.com/libp2p/go-libp2p v0.17.0
 	github.com/libp2p/go-libp2p-connmgr v0.3.1
-	github.com/libp2p/go-libp2p-core v0.13.0
 	github.com/libp2p/go-libp2p-kad-dht v0.15.0
 	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/makiuchi-d/gozxing v0.1.1
@@ -71,6 +70,7 @@ require (
 	github.com/libp2p/go-libp2p-asn-util v0.1.0 // indirect
 	github.com/libp2p/go-libp2p-autonat v0.7.0 // indirect
 	github.com/libp2p/go-libp2p-blankhost v0.3.0 // indirect
+	github.com/libp2p/go-libp2p-core v0.13.0 // indirect
 	github.com/libp2p/go-libp2p-discovery v0.6.0 // indirect
 	github.com/libp2p/go-libp2p-kbucket v0.4.7 // indirect
 	github.com/libp2p/go-libp2p-mplex v0.4.1 // indirect
