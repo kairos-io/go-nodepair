@@ -6,11 +6,8 @@ import (
 	"time"
 
 	"github.com/ipfs/go-log"
-	libp2p "github.com/libp2p/go-libp2p"
-	connmanager "github.com/libp2p/go-libp2p-connmgr"
-	dht "github.com/libp2p/go-libp2p-kad-dht"
 	"github.com/mudler/edgevpn/pkg/blockchain"
-	"github.com/mudler/edgevpn/pkg/crypto"
+	"github.com/mudler/edgevpn/pkg/config"
 	"github.com/mudler/edgevpn/pkg/services"
 
 	"github.com/mudler/edgevpn/pkg/logger"
@@ -21,29 +18,43 @@ const deadNodes = 20 * time.Minute
 
 func newNode(token string) *node.Node {
 	llger := logger.New(log.LevelError)
-	mg, _ := connmanager.NewConnManager(20, 100, connmanager.WithGracePeriod(80*time.Second))
-	dhtOpts := []dht.Option{dht.BucketSize(20)}
-	libp2pOpts := []libp2p.Option{
-		libp2p.ConnectionManager(mg),
-		libp2p.EnableAutoRelay(),
-		libp2p.EnableHolePunching(),
-		libp2p.EnableNATService(),
-		libp2p.NATPortMap(),
+	defaultInterval := 10 * time.Second
+	c := config.Config{
+		NetworkToken:   token,
+		LowProfile:     true,
+		LogLevel:       "error",
+		Libp2pLogLevel: "error",
+		Ledger: config.Ledger{
+			SyncInterval:     defaultInterval,
+			AnnounceInterval: defaultInterval,
+		},
+		NAT: config.NAT{
+			Service:           true,
+			Map:               true,
+			RateLimit:         true,
+			RateLimitGlobal:   10,
+			RateLimitPeer:     10,
+			RateLimitInterval: defaultInterval,
+		},
+		Discovery: config.Discovery{
+			DHT:      true,
+			MDNS:     true,
+			Interval: 30 * time.Second,
+		},
+		Connection: config.Connection{
+			HolePunch:      true,
+			AutoRelay:      true,
+			MaxConnections: 10,
+			MaxStreams:     10,
+		},
 	}
 
-	opts := []node.Option{
-		node.WithStore(&blockchain.MemoryStore{}),
-		node.WithDiscoveryInterval(10 * time.Second),
-		node.WithLedgerAnnounceTime(10 * time.Second),
-		node.WithLedgerInterval(10 * time.Second),
-		node.Logger(llger),
-		node.LibP2PLogLevel(log.LevelError),
-		node.WithSealer(&crypto.AESSealer{}),
-		node.FromBase64(true, true, token, dhtOpts...),
-		node.WithLibp2pOptions(libp2pOpts...),
+	nodeOpts, _, err := c.ToOpts(llger)
+	if err != nil {
+		return nil
 	}
 
-	return node.New(append(opts, services.Alive(30*time.Second, 5*time.Minute, deadNodes)...)...)
+	return node.New(append(nodeOpts, services.Alive(5*time.Second, 5*time.Minute, deadNodes)...)...)
 }
 
 // TokenReader is a function that reads a string and returns a token from it.
