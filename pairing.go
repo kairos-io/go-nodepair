@@ -8,16 +8,15 @@ import (
 	"github.com/ipfs/go-log"
 	"github.com/mudler/edgevpn/pkg/blockchain"
 	"github.com/mudler/edgevpn/pkg/config"
-	"github.com/mudler/edgevpn/pkg/services"
 
 	"github.com/mudler/edgevpn/pkg/logger"
 	node "github.com/mudler/edgevpn/pkg/node"
 )
 
-const deadNodes = 20 * time.Minute
+const deadNodes = 5 * time.Minute
 
 func newNode(token string) *node.Node {
-	llger := logger.New(log.LevelError)
+	llger := logger.New(log.LevelFatal)
 	defaultInterval := 10 * time.Second
 	c := config.Config{
 		NetworkToken:   token,
@@ -54,7 +53,7 @@ func newNode(token string) *node.Node {
 		return nil
 	}
 
-	return node.New(append(nodeOpts, services.Alive(5*time.Second, 5*time.Minute, deadNodes)...)...)
+	return node.New(nodeOpts...)
 }
 
 // TokenReader is a function that reads a string and returns a token from it.
@@ -92,7 +91,7 @@ func WithToken(t string) PairOption {
 
 // GenerateToken returns a token which can be used for pairing
 func GenerateToken() string {
-	d := node.GenerateNewConnectionData()
+	d := node.GenerateNewConnectionData(9000000000)
 	return d.Base64()
 }
 
@@ -116,6 +115,7 @@ func Receive(ctx context.Context, payload interface{}, opts ...PairOption) error
 		return err
 	}
 
+	l.AnnounceUpdate(ctx, 2*time.Second, "presence", n.Host().ID().String(), "")
 	waitNodes(ctx, l)
 
 PAIRDATA:
@@ -127,7 +127,7 @@ PAIRDATA:
 			v, exists := l.GetKey("pairing", "data")
 			if exists {
 				v.Unmarshal(payload)
-				l.AnnounceUpdate(ctx, 1*time.Second, "pairing", n.Host().ID().String(), "ok")
+				l.AnnounceUpdate(ctx, 2*time.Second, "pairing", n.Host().ID().String(), "ok")
 				break PAIRDATA
 			}
 			time.Sleep(1 * time.Second)
@@ -151,15 +151,18 @@ WAIT:
 }
 
 func waitNodes(ctx context.Context, l *blockchain.Ledger) (active []string) {
-	active = services.AvailableNodes(l, deadNodes)
-	enough := len(active) >= 2
+	enough := false
 CHECK:
 	for !enough {
 		select {
 		case <-ctx.Done():
 			return nil
 		default:
-			active = services.AvailableNodes(l, deadNodes)
+			nn := l.CurrentData()["presence"]
+			active = []string{}
+			for k := range nn {
+				active = append(active, k)
+			}
 			enough = len(active) >= 2
 			if enough {
 				break CHECK
@@ -198,8 +201,8 @@ func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 		return err
 	}
 
-	l.AnnounceUpdate(ctx, 1*time.Second, "pairing", "data", payload)
-
+	l.AnnounceUpdate(ctx, 3*time.Second, "pairing", "data", payload)
+	l.AnnounceUpdate(ctx, 3*time.Second, "presence", n.Host().ID().String(), "")
 	active := waitNodes(ctx, l)
 
 PAIRING:
