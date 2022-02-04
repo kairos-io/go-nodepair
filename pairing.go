@@ -89,7 +89,7 @@ func WithToken(t string) PairOption {
 
 // GenerateToken returns a token which can be used for pairing
 func GenerateToken() string {
-	d := node.GenerateNewConnectionData(9000000000)
+	d := node.GenerateNewConnectionData(int(^uint(0) >> 1))
 	return d.Base64()
 }
 
