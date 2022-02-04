@@ -13,8 +13,6 @@ import (
 	node "github.com/mudler/edgevpn/pkg/node"
 )
 
-const deadNodes = 5 * time.Minute
-
 func newNode(token string) *node.Node {
 	llger := logger.New(log.LevelFatal)
 	defaultInterval := 10 * time.Second
