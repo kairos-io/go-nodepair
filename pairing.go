@@ -64,6 +64,24 @@ type PairConfig struct {
 	token       string
 }
 
+func (c *PairConfig) Apply(opts ...PairOption) error {
+	for _, o := range opts {
+		if err := o(c); err != nil {
+			return err
+		}
+	}
+
+	if c.tokenReader != nil {
+		c.token = c.tokenReader(c.token)
+	}
+
+	if c.token == "" {
+		return errors.New("no token supplied")
+	}
+
+	return nil
+}
+
 // PairOption is a config pair option
 type PairOption func(c *PairConfig) error
 
@@ -96,11 +114,7 @@ func GenerateToken() string {
 // Receive a payload during pairing
 func Receive(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	c := &PairConfig{}
-	for _, o := range opts {
-		if err := o(c); err != nil {
-			return err
-		}
-	}
+	c.Apply(opts...)
 
 	n := newNode(c.token)
 
@@ -176,19 +190,7 @@ CHECK:
 // Send a payload during device pairing
 func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	c := &PairConfig{}
-	for _, o := range opts {
-		if err := o(c); err != nil {
-			return err
-		}
-	}
-
-	if c.tokenReader != nil {
-		c.token = c.tokenReader(c.token)
-	}
-
-	if c.token == "" {
-		return errors.New("no token supplied")
-	}
+	c.Apply(opts...)
 
 	n := newNode(c.token)
 
