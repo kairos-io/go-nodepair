@@ -51,7 +51,11 @@ func newNode(token string) *node.Node {
 		return nil
 	}
 
-	return node.New(nodeOpts...)
+	n, err := node.New(nodeOpts...)
+	if err != nil {
+		return nil
+	}
+	return n
 }
 
 // TokenReader is a function that reads a string and returns a token from it.
