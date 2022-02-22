@@ -8,7 +8,7 @@ require (
 	github.com/kbinani/screenshot v0.0.0-20210720154843-7d3a670d8329
 	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/makiuchi-d/gozxing v0.1.1
-	github.com/mudler/edgevpn v0.9.3
+	github.com/mudler/edgevpn v0.10.0
 	github.com/onsi/ginkgo/v2 v2.1.1
 	github.com/onsi/gomega v1.17.0
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
@@ -63,7 +63,7 @@ require (
 	github.com/libp2p/go-conn-security-multistream v0.3.0 // indirect
 	github.com/libp2p/go-eventbus v0.2.1 // indirect
 	github.com/libp2p/go-flow-metrics v0.0.3 // indirect
-	github.com/libp2p/go-libp2p v0.18.0-rc3 // indirect
+	github.com/libp2p/go-libp2p v0.18.0-rc5 // indirect
 	github.com/libp2p/go-libp2p-asn-util v0.1.0 // indirect
 	github.com/libp2p/go-libp2p-blankhost v0.3.0 // indirect
 	github.com/libp2p/go-libp2p-connmgr v0.3.1 // indirect
@@ -77,13 +77,13 @@ require (
 	github.com/libp2p/go-libp2p-peerstore v0.6.0 // indirect
 	github.com/libp2p/go-libp2p-pnet v0.2.0 // indirect
 	github.com/libp2p/go-libp2p-pubsub v0.6.1 // indirect
-	github.com/libp2p/go-libp2p-quic-transport v0.16.1-0.20220207022112-9df78c4a388a // indirect
+	github.com/libp2p/go-libp2p-quic-transport v0.16.1 // indirect
 	github.com/libp2p/go-libp2p-record v0.1.3 // indirect
 	github.com/libp2p/go-libp2p-resource-manager v0.1.3 // indirect
-	github.com/libp2p/go-libp2p-swarm v0.10.1 // indirect
+	github.com/libp2p/go-libp2p-swarm v0.10.2 // indirect
 	github.com/libp2p/go-libp2p-tls v0.3.1 // indirect
 	github.com/libp2p/go-libp2p-transport-upgrader v0.7.1 // indirect
-	github.com/libp2p/go-libp2p-yamux v0.8.1 // indirect
+	github.com/libp2p/go-libp2p-yamux v0.8.2 // indirect
 	github.com/libp2p/go-mplex v0.4.0 // indirect
 	github.com/libp2p/go-msgio v0.1.0 // indirect
 	github.com/libp2p/go-nat v0.1.0 // indirect
@@ -92,7 +92,7 @@ require (
 	github.com/libp2p/go-reuseport v0.1.0 // indirect
 	github.com/libp2p/go-reuseport-transport v0.1.0 // indirect
 	github.com/libp2p/go-stream-muxer-multistream v0.4.0 // indirect
-	github.com/libp2p/go-tcp-transport v0.5.0 // indirect
+	github.com/libp2p/go-tcp-transport v0.5.1 // indirect
 	github.com/libp2p/go-ws-transport v0.6.0 // indirect
 	github.com/libp2p/go-yamux/v3 v3.0.2 // indirect
 	github.com/libp2p/zeroconf/v2 v2.1.1 // indirect
