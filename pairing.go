@@ -80,7 +80,7 @@ func (c *PairConfig) Apply(opts ...PairOption) error {
 	}
 
 	if c.token == "" {
-		return errors.New("no token supplied")
+		return errors.New("no token supplied or couldn't read from providers (try with a better image or input source)")
 	}
 
 	return nil
@@ -118,7 +118,10 @@ func GenerateToken() string {
 // Receive a payload during pairing
 func Receive(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	c := &PairConfig{}
-	c.Apply(opts...)
+
+	if err := c.Apply(opts...); err != nil {
+		return err
+	}
 
 	n := newNode(c.token)
 
@@ -194,7 +197,10 @@ CHECK:
 // Send a payload during device pairing
 func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	c := &PairConfig{}
-	c.Apply(opts...)
+	
+	if err := c.Apply(opts...); err != nil {
+		return err
+	}
 
 	n := newNode(c.token)
 
