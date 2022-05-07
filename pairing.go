@@ -41,6 +41,7 @@ func newNode(token string) *node.Node {
 		Connection: config.Connection{
 			HolePunch:      true,
 			AutoRelay:      true,
+			RelayV1:        true,
 			MaxConnections: 10,
 			MaxStreams:     10,
 		},
@@ -197,7 +198,7 @@ CHECK:
 // Send a payload during device pairing
 func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 	c := &PairConfig{}
-	
+
 	if err := c.Apply(opts...); err != nil {
 		return err
 	}
