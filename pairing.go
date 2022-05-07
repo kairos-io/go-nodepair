@@ -8,6 +8,7 @@ import (
 	"github.com/ipfs/go-log"
 	"github.com/mudler/edgevpn/pkg/blockchain"
 	"github.com/mudler/edgevpn/pkg/config"
+	"github.com/mudler/edgevpn/pkg/services"
 
 	"github.com/mudler/edgevpn/pkg/logger"
 	node "github.com/mudler/edgevpn/pkg/node"
@@ -57,6 +58,8 @@ func newNode(cfg *PairConfig) *node.Node {
 	if err != nil {
 		return nil
 	}
+
+	nodeOpts = append(nodeOpts, services.Alive(30*time.Second, 900*time.Second, 15*time.Minute)...)
 
 	n, err := node.New(nodeOpts...)
 	if err != nil {
