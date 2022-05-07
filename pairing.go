@@ -26,7 +26,7 @@ func newNode(cfg *PairConfig) *node.Node {
 		NetworkToken:   cfg.token,
 		LowProfile:     true,
 		LogLevel:       loglevel,
-		Libp2pLogLevel: loglevel,
+		Libp2pLogLevel: "fatal",
 		Ledger: config.Ledger{
 			SyncInterval:     defaultInterval,
 			AnnounceInterval: defaultInterval,
