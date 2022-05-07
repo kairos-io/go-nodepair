@@ -13,14 +13,20 @@ import (
 	node "github.com/mudler/edgevpn/pkg/node"
 )
 
-func newNode(token string) *node.Node {
+func newNode(cfg *PairConfig) *node.Node {
 	llger := logger.New(log.LevelFatal)
 	defaultInterval := 10 * time.Second
+
+	loglevel := cfg.loglevel
+	if loglevel == "" {
+		loglevel = "fatal"
+	}
+
 	c := config.Config{
-		NetworkToken:   token,
+		NetworkToken:   cfg.token,
 		LowProfile:     true,
-		LogLevel:       "error",
-		Libp2pLogLevel: "error",
+		LogLevel:       loglevel,
+		Libp2pLogLevel: loglevel,
 		Ledger: config.Ledger{
 			SyncInterval:     defaultInterval,
 			AnnounceInterval: defaultInterval,
@@ -67,6 +73,7 @@ type TokenReader func(string) string
 type PairConfig struct {
 	tokenReader TokenReader
 	token       string
+	loglevel    string
 }
 
 func (c *PairConfig) Apply(opts ...PairOption) error {
@@ -110,6 +117,15 @@ func WithToken(t string) PairOption {
 	}
 }
 
+// WithLogLevel sets the loglevel of the pairing operation
+func WithLogLevel(t string) PairOption {
+	return func(c *PairConfig) error {
+		c.loglevel = t
+
+		return nil
+	}
+}
+
 // GenerateToken returns a token which can be used for pairing
 func GenerateToken() string {
 	d := node.GenerateNewConnectionData(int(^uint(0) >> 1))
@@ -124,7 +140,7 @@ func Receive(ctx context.Context, payload interface{}, opts ...PairOption) error
 		return err
 	}
 
-	n := newNode(c.token)
+	n := newNode(c)
 
 	if err := n.Start(ctx); err != nil {
 		return err
@@ -203,7 +219,7 @@ func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 		return err
 	}
 
-	n := newNode(c.token)
+	n := newNode(c)
 
 	n.Start(ctx)
 
