@@ -3,6 +3,7 @@ package nodepair
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/ipfs/go-log"
@@ -24,8 +25,12 @@ func newNode(cfg *PairConfig) *node.Node {
 	}
 
 	c := config.Config{
+		Limit: config.ResourceLimit{
+			Enable:   true,
+			MaxConns: 100,
+		},
 		NetworkToken:   cfg.token,
-		LowProfile:     true,
+		LowProfile:     false,
 		LogLevel:       loglevel,
 		Libp2pLogLevel: "fatal",
 		Ledger: config.Ledger{
@@ -48,9 +53,8 @@ func newNode(cfg *PairConfig) *node.Node {
 		Connection: config.Connection{
 			HolePunch:      true,
 			AutoRelay:      true,
-			RelayV1:        true,
-			MaxConnections: 10,
-			MaxStreams:     10,
+			RelayV1:        false,
+			MaxConnections: 100,
 		},
 	}
 
@@ -193,6 +197,9 @@ func waitNodes(ctx context.Context, l *blockchain.Ledger) (active []string) {
 	enough := false
 CHECK:
 	for !enough {
+		fmt.Println("Not enough nodes")
+		d := l.CurrentData()
+		fmt.Println(d)
 		select {
 		case <-ctx.Done():
 			return nil
@@ -241,7 +248,12 @@ PAIRING:
 		case <-ctx.Done():
 			return nil
 		default:
+			d := l.CurrentData()
+			fmt.Println("Pairing in progress")
+			fmt.Println(d)
 			for _, a := range active {
+				fmt.Println("Active", a)
+
 				if n.Host().ID().String() == a {
 					continue
 				}
