@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	nodepair "github.com/mudler/go-nodepair"
-	qr "github.com/mudler/go-nodepair/qrcode"
+	nodepair "github.com/kairos-io/go-nodepair"
+	qr "github.com/kairos-io/go-nodepair/qrcode"
 )
 
 func main() {

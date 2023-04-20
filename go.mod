@@ -1,4 +1,4 @@
-module github.com/mudler/go-nodepair
+module github.com/kairos-io/go-nodepair
 
 go 1.17
 
