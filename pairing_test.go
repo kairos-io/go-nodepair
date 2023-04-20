@@ -6,12 +6,12 @@ import (
 	"os"
 	"time"
 
-	qr "github.com/mudler/go-nodepair/qrcode"
+	qr "github.com/kairos-io/go-nodepair/qrcode"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/skip2/go-qrcode"
 
-	nodepair "github.com/mudler/go-nodepair"
+	nodepair "github.com/kairos-io/go-nodepair"
 )
 
 var _ = Describe("Pairing", func() {
