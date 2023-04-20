@@ -45,6 +45,9 @@ func FromScreenshot() (string, error) {
 		if err == nil && text != "" {
 			return text, err
 		}
+		if err != nil {
+			return "", err
+		}
 	}
 
 	return "", errors.New("nothing found")
@@ -100,7 +103,10 @@ func Reader(s string) (res string) {
 	if s == "" {
 		res, _ = FromScreenshot()
 	} else {
-		r, _ := Scan(s)
+		r, err := Scan(s)
+		if err != nil {
+			fmt.Printf("warning: %s\n", err.Error())
+		}
 		if r != "" {
 			res = r
 		} else {
