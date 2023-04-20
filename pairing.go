@@ -15,7 +15,7 @@ import (
 	node "github.com/mudler/edgevpn/pkg/node"
 )
 
-func newNode(cfg *PairConfig) *node.Node {
+func newNode(cfg *PairConfig) (*node.Node, error) {
 	llger := logger.New(log.LevelFatal)
 	defaultInterval := 10 * time.Second
 
@@ -60,16 +60,16 @@ func newNode(cfg *PairConfig) *node.Node {
 
 	nodeOpts, _, err := c.ToOpts(llger)
 	if err != nil {
-		return nil
+		return nil, fmt.Errorf("parsing options: %w", err)
 	}
 
 	nodeOpts = append(nodeOpts, services.Alive(30*time.Second, 900*time.Second, 15*time.Minute)...)
 
 	n, err := node.New(nodeOpts...)
 	if err != nil {
-		return nil
+		return nil, fmt.Errorf("creating a new node: %w", err)
 	}
-	return n
+	return n, nil
 }
 
 // TokenReader is a function that reads a string and returns a token from it.
@@ -147,7 +147,10 @@ func Receive(ctx context.Context, payload interface{}, opts ...PairOption) error
 		return err
 	}
 
-	n := newNode(c)
+	n, err := newNode(c)
+	if err != nil {
+		return err
+	}
 
 	if err := n.Start(ctx); err != nil {
 		return err
@@ -229,7 +232,10 @@ func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 		return err
 	}
 
-	n := newNode(c)
+	n, err := newNode(c)
+	if err != nil {
+		return err
+	}
 
 	n.Start(ctx)
 
