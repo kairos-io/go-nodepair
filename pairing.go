@@ -53,7 +53,6 @@ func newNode(cfg *PairConfig) (*node.Node, error) {
 		Connection: config.Connection{
 			HolePunch:      true,
 			AutoRelay:      true,
-			RelayV1:        false,
 			MaxConnections: 100,
 		},
 	}
