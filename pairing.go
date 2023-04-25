@@ -200,8 +200,6 @@ func waitNodes(ctx context.Context, l *blockchain.Ledger) (active []string) {
 CHECK:
 	for !enough {
 		fmt.Println("Not enough nodes")
-		d := l.CurrentData()
-		fmt.Println(d)
 		select {
 		case <-ctx.Done():
 			return nil
