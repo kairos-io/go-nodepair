@@ -82,6 +82,7 @@ type PairConfig struct {
 	loglevel    string
 }
 
+// Apply sets the given option to the configuration
 func (c *PairConfig) Apply(opts ...PairOption) error {
 	for _, o := range opts {
 		if err := o(c); err != nil {
