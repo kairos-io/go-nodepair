@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"image"
 	"image/png"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -21,7 +20,7 @@ import (
 
 // FromScreenshot reads a QR code from the displays
 func FromScreenshot() (string, error) {
-	tdir, err := ioutil.TempDir("", "screenshot")
+	tdir, err := os.MkdirTemp("", "screenshot")
 	if err != nil {
 		return "", err
 	}
