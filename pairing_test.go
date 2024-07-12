@@ -2,7 +2,6 @@ package nodepair_test
 
 import (
 	"context"
-	"io/ioutil"
 	"os"
 	"time"
 
@@ -26,9 +25,9 @@ var _ = Describe("Pairing", func() {
 			if err != nil {
 				return
 			}
-			f, _ := ioutil.TempFile("", "xxx")
+			f, _ := os.CreateTemp("", "xxx")
 			defer os.RemoveAll(f.Name())
-			ioutil.WriteFile(f.Name(), png, os.ModePerm)
+			os.WriteFile(f.Name(), png, os.ModePerm)
 
 			go func() {
 				time.Sleep(2 * time.Second)
