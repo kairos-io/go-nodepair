@@ -8,7 +8,7 @@ require (
 	github.com/kbinani/screenshot v0.0.0-20230812210009-b87d31814237
 	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/makiuchi-d/gozxing v0.1.1
-	github.com/mudler/edgevpn v0.26.2-0.20240710092812-447a4e976831
+	github.com/mudler/edgevpn v0.26.2
 	github.com/onsi/ginkgo/v2 v2.19.0
 	github.com/onsi/gomega v1.33.1
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
