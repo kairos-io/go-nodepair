@@ -9,7 +9,7 @@ require (
 	github.com/lucasb-eyer/go-colorful v1.2.0
 	github.com/makiuchi-d/gozxing v0.1.1
 	github.com/mudler/edgevpn v0.27.3
-	github.com/onsi/ginkgo/v2 v2.20.0
+	github.com/onsi/ginkgo/v2 v2.20.1
 	github.com/onsi/gomega v1.34.1
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 )
