@@ -5,7 +5,7 @@ go 1.23
 toolchain go1.23.3
 
 require (
-	github.com/eliukblau/pixterm v1.3.1
+	github.com/eliukblau/pixterm v1.3.2
 	github.com/ipfs/go-log v1.0.5
 	github.com/kbinani/screenshot v0.0.0-20230812210009-b87d31814237
 	github.com/lucasb-eyer/go-colorful v1.2.0
@@ -147,7 +147,7 @@ require (
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/crypto v0.28.0 // indirect
 	golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa // indirect
-	golang.org/x/image v0.18.0 // indirect
+	golang.org/x/image v0.20.0 // indirect
 	golang.org/x/mod v0.21.0 // indirect
 	golang.org/x/net v0.30.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
