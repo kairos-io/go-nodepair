@@ -2,7 +2,7 @@ module github.com/kairos-io/go-nodepair
 
 go 1.23
 
-toolchain go1.23.5
+toolchain go1.23.6
 
 require (
 	github.com/eliukblau/pixterm v1.3.2
