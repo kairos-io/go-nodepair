@@ -1,3 +1,11 @@
 [[IgnoredVulns]]
 id = "GHSA-q7pp-wcgr-pffx"
 reason = "No impact since we don't work with TIFF image files"
+
+# Affects all versions of go-libp2p-kad-dht (no fixed release; introduced: 0).
+# Pulled transitively via github.com/mudler/edgevpn; go-nodepair only uses
+# edgevpn for short-lived device pairing, not as a public IPFS DHT node.
+[[IgnoredVulns]]
+id = "GO-2024-3218"
+ignoreUntil = 2026-07-08
+reason = "Content censorship via Kademlia DHT abuse in go-libp2p-kad-dht; no patched release exists (affects all versions). Transitive via edgevpn; not used as a public DHT node. Re-evaluate before expiry."
