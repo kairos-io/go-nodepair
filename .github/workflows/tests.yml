@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Go
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v6
     - name: Run tests
       run: |
         go run github.com/onsi/ginkgo/v2/ginkgo -r ./...
