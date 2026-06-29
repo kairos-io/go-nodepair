@@ -7,7 +7,7 @@ require (
 	github.com/ipfs/go-log v1.0.5
 	github.com/ipfs/go-log/v2 v2.9.2
 	github.com/kbinani/screenshot v0.0.0-20230812210009-b87d31814237
-	github.com/lucasb-eyer/go-colorful v1.2.0
+	github.com/lucasb-eyer/go-colorful v1.4.0
 	github.com/makiuchi-d/gozxing v0.1.1
 	github.com/mudler/edgevpn v0.35.2
 	github.com/onsi/ginkgo/v2 v2.29.0
