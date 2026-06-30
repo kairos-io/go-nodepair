@@ -4,7 +4,7 @@ go 1.26.4
 
 require (
 	github.com/eliukblau/pixterm v1.3.2
-	github.com/ipfs/go-log v1.0.5
+	github.com/ipfs/go-log/v2 v2.9.2
 	github.com/ipfs/go-log/v2 v2.9.2
 	github.com/kbinani/screenshot v0.0.0-20230812210009-b87d31814237
 	github.com/lucasb-eyer/go-colorful v1.4.0
