@@ -4,13 +4,13 @@ go 1.26.4
 
 require (
 	github.com/eliukblau/pixterm v1.3.2
-	github.com/ipfs/go-log/v2 v2.9.2
+	github.com/ipfs/go-log v1.0.5
 	github.com/ipfs/go-log/v2 v2.9.2
 	github.com/kbinani/screenshot v0.0.0-20250624051815-089614a94018
 	github.com/lucasb-eyer/go-colorful v1.4.0
 	github.com/makiuchi-d/gozxing v0.1.1
-	github.com/mudler/edgevpn v0.35.2
-	github.com/onsi/ginkgo/v2 v2.29.0
+	github.com/mudler/edgevpn v0.35.3
+	github.com/onsi/ginkgo/v2 v2.32.0
 	github.com/onsi/gomega v1.42.1
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 )
@@ -24,7 +24,7 @@ require (
 	github.com/c-robinson/iplib v1.0.8 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/creachadair/otp v0.5.0 // indirect
+	github.com/creachadair/otp v0.5.4 // indirect
 	github.com/davidlazar/go-crypto v0.0.0-20200604182044-b73af7476f6c // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.1 // indirect
 	github.com/disintegration/imaging v1.6.2 // indirect
@@ -60,7 +60,7 @@ require (
 	github.com/libp2p/go-flow-metrics v0.3.0 // indirect
 	github.com/libp2p/go-libp2p v0.48.0 // indirect
 	github.com/libp2p/go-libp2p-asn-util v0.4.1 // indirect
-	github.com/libp2p/go-libp2p-kad-dht v0.40.0 // indirect
+	github.com/libp2p/go-libp2p-kad-dht v0.41.0 // indirect
 	github.com/libp2p/go-libp2p-kbucket v0.8.0 // indirect
 	github.com/libp2p/go-libp2p-pubsub v0.16.0 // indirect
 	github.com/libp2p/go-libp2p-record v0.3.1 // indirect

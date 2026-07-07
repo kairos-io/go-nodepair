@@ -79,6 +79,8 @@ github.com/creachadair/mds v0.21.3 h1:RRgEAPIb52cU0q7UxGyN+13QlCVTZIL4slRr0cYYQf
 github.com/creachadair/mds v0.21.3/go.mod h1:1ltMWZd9yXhaHEoZwBialMaviWVUpRPvMwVP7saFAzM=
 github.com/creachadair/otp v0.5.0 h1:q3Th7CXm2zlmCdBjw5tEPFOj4oWJMnVL5HXlq0sNKS0=
 github.com/creachadair/otp v0.5.0/go.mod h1:0kceI87EnYFNYSTL121goJVAnk3eJhaed9H0nMuJUkA=
+github.com/creachadair/otp v0.5.4 h1:v5LnqQGPPcX1K+mfU8xscKt157Kzh10cDQYEAeLGujk=
+github.com/creachadair/otp v0.5.4/go.mod h1:Ps6nENtdec8LepzmCHB2QbSIf7te4/5GlvoegNkYlgc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -310,6 +312,8 @@ github.com/libp2p/go-libp2p-asn-util v0.4.1 h1:xqL7++IKD9TBFMgnLPZR6/6iYhawHKHl9
 github.com/libp2p/go-libp2p-asn-util v0.4.1/go.mod h1:d/NI6XZ9qxw67b4e+NgpQexCIiFYJjErASrYW4PFDN8=
 github.com/libp2p/go-libp2p-kad-dht v0.40.0 h1:as8U7Y1RX9CTKCBiFBHWKZ6tSS+rE+6WNz+H1+M+wbo=
 github.com/libp2p/go-libp2p-kad-dht v0.40.0/go.mod h1:iLUjII47u3/HjxyhucI2lhsl29lrzlAs/ym16+H40jE=
+github.com/libp2p/go-libp2p-kad-dht v0.41.0 h1:sDigz5SgV20Crj8ItJmJpEAM+eJrzC/SaiBweg0gDRw=
+github.com/libp2p/go-libp2p-kad-dht v0.41.0/go.mod h1:2qc4QGLvmIdznYbNg++FF76vp4q2SaBZyr76jHV8xgs=
 github.com/libp2p/go-libp2p-kbucket v0.8.0 h1:QAK7RzKJpYe+EuSEATAaaHYMYLkPDGC18m9jxPLnU8s=
 github.com/libp2p/go-libp2p-kbucket v0.8.0/go.mod h1:JMlxqcEyKwO6ox716eyC0hmiduSWZZl6JY93mGaaqc4=
 github.com/libp2p/go-libp2p-pubsub v0.16.0 h1:j7G2C8kJwkcAQqYR7Wmq3d75d3Sgw/N0Hhiv0dVx7OY=
@@ -383,6 +387,8 @@ github.com/mudler/edgevpn v0.35.1 h1:whNT7E/C20tL5verNW5X1KHFfrIWAvvmeZ0Tj6wHx8o
 github.com/mudler/edgevpn v0.35.1/go.mod h1:mmvh52IJT5T9TfOfXx/TTlnHl6wWGNbIEu7Bu3Kw/uQ=
 github.com/mudler/edgevpn v0.35.2 h1:COv6ZXnmHUVN02f9wRz2CGsRy1j65pA5/g+0LjXDvmo=
 github.com/mudler/edgevpn v0.35.2/go.mod h1:xbfuA+Dpck4LOoKAOIHTWuAElBp0aV77Z5HCvKKrmUU=
+github.com/mudler/edgevpn v0.35.3 h1:to7ozBMcVCjSGwx/wmazIZNLT5Zp8XMcTvrjvm2W0AI=
+github.com/mudler/edgevpn v0.35.3/go.mod h1:zBaJxkRVxHWTx0t6ZQCDu3XLNN+xaS4qIxHZFC1B2sE=
 github.com/mudler/water v0.0.0-20250808092830-dd90dcf09025 h1:WFLP5FHInarYGXi6B/Ze204x7Xy6q/I4nCZnWEyPHK0=
 github.com/mudler/water v0.0.0-20250808092830-dd90dcf09025/go.mod h1:QuIFdRstyGJt+MTTkWY+mtD7U6xwjOR6SwKUjmLZtR4=
 github.com/multiformats/go-base32 v0.1.0 h1:pVx9xoSPqEIQG8o+UbAe7DNi51oej1NtK+aGkbLYxPE=
@@ -413,6 +419,8 @@ github.com/neelance/astrewrite v0.0.0-20160511093645-99348263ae86/go.mod h1:kHJE
 github.com/neelance/sourcemap v0.0.0-20200213170602-2833bce08e4c/go.mod h1:Qr6/a/Q4r9LP1IltGz7tA7iOK1WonHEYhu1HRBA7ZiM=
 github.com/onsi/ginkgo/v2 v2.29.0 h1:rfh+ZFjgJhYWRoIqVf3Uwx/W20yLrcrE2h2GmYVRaag=
 github.com/onsi/ginkgo/v2 v2.29.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
+github.com/onsi/ginkgo/v2 v2.32.0 h1:Hw7s2pVrQo/8Yz5N77qdnpHaoc+c6cC9WIV1Jce+J6E=
+github.com/onsi/ginkgo/v2 v2.32.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
 github.com/onsi/gomega v1.41.0 h1:OwKp4pXNgVxf6sCplzYo794OFNuoL2q2SBMU5NSWOjA=
 github.com/onsi/gomega v1.41.0/go.mod h1:M/Uqpu/8qTjtzCLUA2zJHX9Iilrau25x1PdoSRbWh5A=
 github.com/onsi/gomega v1.42.1 h1:iN1rCUX+44NZ1Dc97MPoeFYbFR0vh8zxoxMFwKdyZ6I=
