@@ -3,7 +3,7 @@ module github.com/kairos-io/go-nodepair
 go 1.26.4
 
 require (
-	github.com/eliukblau/pixterm v1.3.2
+	github.com/eliukblau/pixterm v1.3.3
 	github.com/ipfs/go-log v1.0.5
 	github.com/ipfs/go-log/v2 v2.9.2
 	github.com/kbinani/screenshot v0.0.0-20250624051815-089614a94018
