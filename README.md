@@ -2,11 +2,15 @@
 
 A small library to handle transparent remote node pairing.
 
+> **Found a bug, or want to request a feature?** Open it on
+> [kairos-io/kairos](https://github.com/kairos-io/kairos/issues), including
+> issues about this repository. Every Kairos issue lives in one place, so you
+> never have to work out which repository to file against.
+
 ## Usage
 
 On one side (that is a separate binary, or either a go routine),
 we generate a token, display it as QR code and we wait for pairing to complete:
-
 
 ```golang
 
