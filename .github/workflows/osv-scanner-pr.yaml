@@ -1,13 +1,13 @@
 name: OSV-Scanner PR Scan
 
-# Change "main" to your default branch if you use a different name, i.e. "master"
+# This repository's default branch is master, not the template's main.
 on:
   pull_request:
   merge_group:
-    branches: [main]
+    branches: [master]
   push:
     branches:
-      - main
+      - master
 
 permissions:
   # Require writing security events to upload SARIF file to security tab
