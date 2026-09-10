@@ -1,6 +1,6 @@
 module github.com/kairos-io/go-nodepair
 
-go 1.26.4
+go 1.26.6
 
 require (
 	github.com/eliukblau/pixterm v1.3.3
