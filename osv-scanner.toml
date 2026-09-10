@@ -1,11 +1,38 @@
+# Entries here suppress a finding that OSV-Scanner cannot stop reporting.
+#
+# Only add one when the advisory has no fixed release. Anything with a fix
+# belongs in a dependency bump instead: an ignore hides it from every future
+# scan, a bump makes the finding go away for real.
+#
+# `ignoreUntil` turns an entry into a review date. The scan goes red again on
+# that day, which is the point: it asks whether the justification below still
+# holds. Renew it or delete the entry, but do not extend it without rereading
+# the reason.
+
+# No fixed release exists: 1.6.2 is the last one, from 2019, and the repository
+# is archived. The Go vulnerability database reviewed this report and excluded
+# it as NOT_A_VULNERABILITY (GO-2023-2039), so only the GitHub Advisory Database
+# copy reaches us. It is also unreachable: imaging arrives via
+# github.com/eliukblau/pixterm, whose pkg/ansimage calls imaging.Resize, Fill
+# and Fit on an already-decoded image.Image and never Open, Decode or Grayscale,
+# and qrcode.Print hands ansimage a PNG that go-nodepair itself just encoded.
 [[IgnoredVulns]]
 id = "GHSA-q7pp-wcgr-pffx"
-reason = "No impact since we don't work with TIFF image files"
+reason = "Panic on a crafted TIFF in github.com/disintegration/imaging. No fixed release; excluded upstream as GO-2023-2039 NOT_A_VULNERABILITY; the vulnerable decode path is not reachable from qrcode.Print."
 
 # Affects all versions of go-libp2p-kad-dht (no fixed release; introduced: 0).
 # Pulled transitively via github.com/mudler/edgevpn; go-nodepair only uses
 # edgevpn for short-lived device pairing, not as a public IPFS DHT node.
 [[IgnoredVulns]]
 id = "GO-2024-3218"
-ignoreUntil = 2026-07-08
+ignoreUntil = 2027-09-10
 reason = "Content censorship via Kademlia DHT abuse in go-libp2p-kad-dht; no patched release exists (affects all versions). Transitive via edgevpn; not used as a public DHT node. Re-evaluate before expiry."
+
+# An advisory against the package rather than a defect, so there will never be
+# a fixed release. golang.org/x/crypto is transitive via libp2p, and the
+# openpgp tree is not in the build: `go list -deps ./...` reaches blake2b,
+# blake2s, sha3, salsa20 and cryptobyte, and no openpgp package.
+[[IgnoredVulns]]
+id = "GO-2026-5932"
+ignoreUntil = 2027-09-10
+reason = "golang.org/x/crypto/openpgp is unmaintained and unsafe by design; no fixed release will exist. go-nodepair does not import it, directly or transitively."
