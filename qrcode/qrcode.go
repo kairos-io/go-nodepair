@@ -48,7 +48,13 @@ func FromScreenshot() (string, error) {
 }
 
 // writePNG encodes img into a new file at path.
+//
+// The only caller builds path from the os.MkdirTemp directory it owns, the
+// display index and the bounds the screenshot library reports. Nothing from
+// outside the process reaches it, so gosec G304 has no untrusted input to
+// confine here.
 func writePNG(path string, img image.Image) error {
+	// #nosec G304
 	file, err := os.Create(path)
 	if err != nil {
 		return err
