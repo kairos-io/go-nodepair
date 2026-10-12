@@ -7,5 +7,15 @@ reason = "No impact since we don't work with TIFF image files"
 # edgevpn for short-lived device pairing, not as a public IPFS DHT node.
 [[IgnoredVulns]]
 id = "GO-2024-3218"
-ignoreUntil = 2026-07-08
+ignoreUntil = 2027-04-12
 reason = "Content censorship via Kademlia DHT abuse in go-libp2p-kad-dht; no patched release exists (affects all versions). Transitive via edgevpn; not used as a public DHT node. Re-evaluate before expiry."
+
+# Affects all versions of golang.org/x/crypto (no fixed release; introduced: 0),
+# because the advisory is about the unmaintained openpgp package rather than a
+# defect in a release. `go list -deps ./...` shows go-nodepair pulls blake2b,
+# blake2s, chacha20, chacha20poly1305, cryptobyte, curve25519, hkdf, poly1305,
+# salsa20 and sha3, and never golang.org/x/crypto/openpgp.
+[[IgnoredVulns]]
+id = "GO-2026-5932"
+ignoreUntil = 2027-04-12
+reason = "golang.org/x/crypto/openpgp is unmaintained and unsafe by design; that package is not in this module's build graph. Re-evaluate before expiry."
