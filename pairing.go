@@ -172,7 +172,14 @@ PAIRDATA:
 		default:
 			v, exists := l.GetKey("pairing", "data")
 			if exists {
-				v.Unmarshal(payload)
+				// Acknowledging a payload we could not read tells the sender
+				// the pairing worked while the caller is left with whatever
+				// the failed decode wrote: encoding/json keeps going after a
+				// type error inside an object, so that can be a partly filled
+				// value rather than an empty one.
+				if err := v.Unmarshal(payload); err != nil {
+					return fmt.Errorf("decoding the pairing payload: %w", err)
+				}
 				l.AnnounceUpdate(ctx, 2*time.Second, "pairing", n.Host().ID().String(), "ok")
 				break PAIRDATA
 			}
