@@ -95,25 +95,31 @@ func Scan(f string) (string, error) {
 	return result.GetText(), nil
 }
 
-// Reader retrieves a QRCode or either from an image file
-// given as arguments or from the machine screenshot (best-effort)
-func Reader(s string) (res string) {
-	res = s
-	if s == "" {
-		res, _ = FromScreenshot()
-	} else {
-		r, err := Scan(s)
+// Reader retrieves a QRCode from an image file given as argument, or from the
+// machine screenshot (best-effort) when there is no file or the file carries
+// no code.
+//
+// It returns the token it read, or an empty string when it read none. s is a
+// path to scan, never a token, so it is not a usable fallback: returning it
+// got past the empty-token check in PairConfig.Apply and failed much later
+// inside edgevpn, with a base64 error that named neither the file nor the
+// screen.
+//
+// Both halves are best-effort, so both say why they came back empty.
+func Reader(s string) string {
+	if s != "" {
+		token, err := Scan(s)
 		if err != nil {
 			fmt.Printf("warning: %s\n", err.Error())
 		}
-		if r != "" {
-			res = r
-		} else {
-			r, _ = FromScreenshot()
-			if r != "" {
-				res = r
-			}
+		if token != "" {
+			return token
 		}
 	}
-	return
+
+	token, err := FromScreenshot()
+	if err != nil {
+		fmt.Printf("warning: %s\n", err.Error())
+	}
+	return token
 }
