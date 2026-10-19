@@ -4,7 +4,6 @@ go 1.26.4
 
 require (
 	github.com/eliukblau/pixterm v1.3.3
-	github.com/ipfs/go-log v1.0.5
 	github.com/ipfs/go-log/v2 v2.9.2
 	github.com/kbinani/screenshot v0.0.0-20250624051815-089614a94018
 	github.com/lucasb-eyer/go-colorful v1.4.1
@@ -49,6 +48,7 @@ require (
 	github.com/ipfs/boxo v0.39.0 // indirect
 	github.com/ipfs/go-cid v0.6.1 // indirect
 	github.com/ipfs/go-datastore v0.9.1 // indirect
+	github.com/ipfs/go-log v1.0.5 // indirect
 	github.com/ipld/go-ipld-prime v0.23.0 // indirect
 	github.com/jackpal/go-nat-pmp v1.0.2 // indirect
 	github.com/jbenet/go-temp-err-catcher v0.1.0 // indirect
