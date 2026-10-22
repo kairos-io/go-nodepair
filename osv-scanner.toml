@@ -1,7 +1,3 @@
-[[IgnoredVulns]]
-id = "GHSA-q7pp-wcgr-pffx"
-reason = "No impact since we don't work with TIFF image files"
-
 # Affects all versions of go-libp2p-kad-dht (no fixed release; introduced: 0).
 # Pulled transitively via github.com/mudler/edgevpn; go-nodepair only uses
 # edgevpn for short-lived device pairing, not as a public IPFS DHT node.
