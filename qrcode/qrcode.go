@@ -9,9 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	ansimage "github.com/eliukblau/pixterm/pkg/ansimage"
 	"github.com/kbinani/screenshot"
-	"github.com/lucasb-eyer/go-colorful"
 	"github.com/makiuchi-d/gozxing"
 	qr "github.com/makiuchi-d/gozxing/qrcode"
 
@@ -52,21 +50,82 @@ func FromScreenshot() (string, error) {
 	return "", errors.New("nothing found")
 }
 
+// upperHalfBlock fills the top half of a terminal cell. A cell is about twice
+// as tall as it is wide, so drawing one module per cell gives a code half as
+// wide as it is high, which many scanners refuse. Carrying two module rows in
+// one cell, the upper in the foreground colour and the lower in the
+// background, makes the modules square again and halves the number of lines:
+// a 29 by 29 code prints in 15, which fits an 80 by 24 console.
+const upperHalfBlock = "▀"
+
+// ansiReset returns the terminal to its own colours at the end of every line,
+// so the code does not bleed into whatever is printed after it.
+const ansiReset = "\x1b[0m"
+
 // Print prints the string as QRcode on terminal output
 func Print(s string) {
-	var png []byte
-	png, err := qrcode.Encode(s, qrcode.Medium, 1)
+	code, err := qrcode.New(s, qrcode.Medium)
 	if err != nil {
 		return
 	}
 
-	mc, err := colorful.Hex("#000000") // RGB color from Hex format
-	if err == nil {
-		i, err := ansimage.NewFromReader(strings.NewReader(string(png)), mc, ansimage.NoDithering)
-		if err == nil {
-			i.DrawExt(false, false)
+	fmt.Print(Render(code.Bitmap()))
+}
+
+// Render draws a QR code bitmap as lines of terminal text.
+//
+// bitmap is row-major and true means a dark module. It already carries the
+// quiet zone, which is part of the code: a scanner needs the light border to
+// find the symbol at all, so it is drawn rather than trimmed.
+//
+// Both colours are written as explicit ANSI codes instead of being left to the
+// terminal's own palette. A scanner reads dark modules on a light background,
+// and on a dark theme the untinted output would be the photographic negative
+// of that.
+func Render(bitmap [][]bool) string {
+	var out strings.Builder
+
+	for y := 0; y < len(bitmap); y += 2 {
+		upper := bitmap[y]
+
+		// Every QR version has an odd number of rows once the quiet zone is
+		// added, so the last row never has a partner. Pad it with light: the
+		// half module that adds sits inside the bottom quiet zone, and that
+		// zone is light.
+		lower := make([]bool, len(upper))
+		if y+1 < len(bitmap) {
+			lower = bitmap[y+1]
 		}
+
+		for x, dark := range upper {
+			fmt.Fprintf(&out, "\x1b[%s;%sm%s", foreground(dark), background(lower[x]), upperHalfBlock)
+		}
+
+		out.WriteString(ansiReset)
+		out.WriteString("\n")
 	}
+
+	return out.String()
+}
+
+// foreground is the ANSI foreground code for a module, black when it is dark
+// and bright white when it is light.
+func foreground(dark bool) string {
+	if dark {
+		return "30"
+	}
+
+	return "97"
+}
+
+// background is the ANSI background code for a module, black when it is dark
+// and bright white when it is light.
+func background(dark bool) string {
+	if dark {
+		return "40"
+	}
+
+	return "107"
 }
 
 // Scan parses QR code from an image file
