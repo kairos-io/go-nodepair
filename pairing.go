@@ -162,13 +162,15 @@ func Receive(ctx context.Context, payload interface{}, opts ...PairOption) error
 	}
 
 	l.AnnounceUpdate(ctx, 2*time.Second, "presence", n.Host().ID().String(), "")
-	waitNodes(ctx, l)
+	if _, err := waitNodes(ctx, l); err != nil {
+		return err
+	}
 
 PAIRDATA:
 	for {
 		select {
 		case <-ctx.Done():
-			return nil
+			return fmt.Errorf("waiting for the pairing payload: %w", ctx.Err())
 		default:
 			v, exists := l.GetKey("pairing", "data")
 			if exists {
@@ -176,7 +178,9 @@ PAIRDATA:
 				l.AnnounceUpdate(ctx, 2*time.Second, "pairing", n.Host().ID().String(), "ok")
 				break PAIRDATA
 			}
-			time.Sleep(1 * time.Second)
+			if err := sleep(ctx, 1*time.Second); err != nil {
+				return fmt.Errorf("waiting for the pairing payload: %w", err)
+			}
 		}
 	}
 
@@ -184,26 +188,28 @@ WAIT:
 	for {
 		select {
 		case <-ctx.Done():
-			return nil
+			return fmt.Errorf("waiting for our own pairing acknowledgement: %w", ctx.Err())
 		default:
 			if _, exists := l.GetKey("pairing", n.Host().ID().String()); exists {
 				break WAIT
 			}
-			time.Sleep(1 * time.Second)
+			if err := sleep(ctx, 1*time.Second); err != nil {
+				return fmt.Errorf("waiting for our own pairing acknowledgement: %w", err)
+			}
 		}
 	}
 
 	return nil
 }
 
-func waitNodes(ctx context.Context, l *blockchain.Ledger) (active []string) {
+func waitNodes(ctx context.Context, l *blockchain.Ledger) (active []string, err error) {
 	enough := false
 CHECK:
 	for !enough {
 		fmt.Println("Not enough nodes")
 		select {
 		case <-ctx.Done():
-			return nil
+			return nil, fmt.Errorf("waiting for the other node to join the pairing network: %w", ctx.Err())
 		default:
 			nn := l.CurrentData()["presence"]
 			active = []string{}
@@ -213,13 +219,13 @@ CHECK:
 			enough = len(active) >= 2
 			if enough {
 				break CHECK
-			} else {
-				time.Sleep(10 * time.Second)
+			} else if err := sleep(ctx, 10*time.Second); err != nil {
+				return nil, fmt.Errorf("waiting for the other node to join the pairing network: %w", err)
 			}
 		}
 	}
 
-	return active
+	return active, nil
 }
 
 // Send a payload during device pairing
@@ -235,7 +241,12 @@ func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 		return err
 	}
 
-	n.Start(ctx)
+	// The error matters: nothing below fails when the node is not running, so
+	// a discarded start error leaves Send announcing into a ledger no peer
+	// gossips and then blocking in waitNodes until the caller's context ends.
+	if err := n.Start(ctx); err != nil {
+		return fmt.Errorf("starting node: %w", err)
+	}
 
 	l, err := n.Ledger()
 	if err != nil {
@@ -244,13 +255,16 @@ func Send(ctx context.Context, payload interface{}, opts ...PairOption) error {
 
 	l.AnnounceUpdate(ctx, 3*time.Second, "pairing", "data", payload)
 	l.AnnounceUpdate(ctx, 3*time.Second, "presence", n.Host().ID().String(), "")
-	active := waitNodes(ctx, l)
+	active, err := waitNodes(ctx, l)
+	if err != nil {
+		return err
+	}
 
 PAIRING:
 	for {
 		select {
 		case <-ctx.Done():
-			return nil
+			return fmt.Errorf("waiting for the other node to accept the payload: %w", ctx.Err())
 		default:
 			d := l.CurrentData()
 			fmt.Println("Pairing in progress")
@@ -265,9 +279,27 @@ PAIRING:
 				if exists {
 					break PAIRING
 				}
-				time.Sleep(1 * time.Second)
+				if err := sleep(ctx, 1*time.Second); err != nil {
+					return fmt.Errorf("waiting for the other node to accept the payload: %w", err)
+				}
 			}
 		}
 	}
 	return nil
+}
+
+// sleep waits for d, or returns early with the context's error when the
+// context ends first. A bare time.Sleep in a polling loop makes the loop
+// notice a finished context up to d late, so a caller's deadline is only
+// honoured to within the poll interval.
+func sleep(ctx context.Context, d time.Duration) error {
+	t := time.NewTimer(d)
+	defer t.Stop()
+
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	case <-t.C:
+		return nil
+	}
 }
