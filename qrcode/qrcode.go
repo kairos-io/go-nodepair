@@ -27,6 +27,7 @@ func FromScreenshot() (string, error) {
 	defer os.RemoveAll(tdir)
 
 	n := screenshot.NumActiveDisplays()
+	files := make([]string, 0, n)
 	for i := 0; i < n; i++ {
 		bounds := screenshot.GetDisplayBounds(i)
 
@@ -35,18 +36,58 @@ func FromScreenshot() (string, error) {
 			continue
 		}
 
-		os.MkdirAll("/tmp/screenshots", os.ModePerm)
-		fileName := fmt.Sprintf(filepath.Join(tdir, "%d_%dx%d.png"), i, bounds.Dx(), bounds.Dy())
-		file, _ := os.Create(fileName)
-		defer file.Close()
-		png.Encode(file, img)
-		text, err := Scan(fileName)
-		if err == nil && text != "" {
-			return text, err
+		fileName := filepath.Join(tdir, fmt.Sprintf("%d_%dx%d.png", i, bounds.Dx(), bounds.Dy()))
+		if err := writePNG(fileName, img); err != nil {
+			continue
 		}
+
+		files = append(files, fileName)
+	}
+
+	return scanImages(files)
+}
+
+// writePNG encodes img into a new file at path.
+//
+// The only caller builds path from the os.MkdirTemp directory it owns, the
+// display index and the bounds the screenshot library reports. Nothing from
+// outside the process reaches it, so gosec G304 has no untrusted input to
+// confine here.
+func writePNG(path string, img image.Image) error {
+	// #nosec G304
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	return png.Encode(file, img)
+}
+
+// scanImages returns the text of the first capture that carries a QR code.
+//
+// A capture that carries no code decodes to an error rather than to an empty
+// string, and so does one that could not be written. Neither says anything
+// about the captures after it, so both are skipped and the scan goes on. The
+// last of those errors is kept, because it is the only description of why a
+// scan that found nothing found nothing.
+func scanImages(files []string) (string, error) {
+	var lastErr error
+
+	for _, f := range files {
+		text, err := Scan(f)
 		if err != nil {
-			return "", err
+			lastErr = err
+			continue
 		}
+
+		if text != "" {
+			return text, nil
+		}
+	}
+
+	if lastErr != nil {
+		return "", fmt.Errorf("nothing found: %w", lastErr)
 	}
 
 	return "", errors.New("nothing found")
