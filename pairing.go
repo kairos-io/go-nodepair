@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ipfs/go-log"
+	log "github.com/ipfs/go-log/v2"
 	"github.com/mudler/edgevpn/pkg/blockchain"
 	"github.com/mudler/edgevpn/pkg/config"
 	"github.com/mudler/edgevpn/pkg/services"
