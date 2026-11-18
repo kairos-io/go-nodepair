@@ -3,11 +3,8 @@ module github.com/kairos-io/go-nodepair
 go 1.26.4
 
 require (
-	github.com/eliukblau/pixterm v1.3.3
 	github.com/ipfs/go-log v1.0.5
-	github.com/ipfs/go-log/v2 v2.9.2
 	github.com/kbinani/screenshot v0.0.0-20250624051815-089614a94018
-	github.com/lucasb-eyer/go-colorful v1.4.1
 	github.com/makiuchi-d/gozxing v0.1.1
 	github.com/mudler/edgevpn v0.35.5
 	github.com/onsi/ginkgo/v2 v2.32.2
@@ -27,7 +24,6 @@ require (
 	github.com/creachadair/otp v0.5.4 // indirect
 	github.com/davidlazar/go-crypto v0.0.0-20200604182044-b73af7476f6c // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.1 // indirect
-	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/dunglas/httpsfv v1.1.0 // indirect
 	github.com/filecoin-project/go-clock v0.1.0 // indirect
 	github.com/flynn/noise v1.1.0 // indirect
@@ -49,6 +45,7 @@ require (
 	github.com/ipfs/boxo v0.39.0 // indirect
 	github.com/ipfs/go-cid v0.6.1 // indirect
 	github.com/ipfs/go-datastore v0.9.1 // indirect
+	github.com/ipfs/go-log/v2 v2.9.2 // indirect
 	github.com/ipld/go-ipld-prime v0.23.0 // indirect
 	github.com/jackpal/go-nat-pmp v1.0.2 // indirect
 	github.com/jbenet/go-temp-err-catcher v0.1.0 // indirect
@@ -138,7 +135,6 @@ require (
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.56.0 // indirect
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f // indirect
-	golang.org/x/image v0.41.0 // indirect
 	golang.org/x/mod v0.38.0 // indirect
 	golang.org/x/net v0.57.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
